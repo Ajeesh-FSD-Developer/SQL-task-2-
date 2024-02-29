@@ -1,0 +1,69 @@
+CREATE TABLE zenclass (
+batch_id INT PRIMARY KEY,
+coordinator_nameVARCHAR(30),
+    courses VARCHAR(30)
+);
+
+
+CREATE TABLE session (
+session_id INT PRIMARY KEY,
+class_nameVARCHAR(30),
+class_descriptionVARCHAR(30)
+);
+
+
+
+CREATE TABLE syllabus (
+syllabus_id INT PRIMARY KEY,
+syllabus_descriptionVARCHAR(1000)
+);
+
+
+CREATE TABLE students(
+student_id INT PRIMARY KEY,
+student_nameVARCHAR(30),
+batch_id INT,
+    FOREIGN KEY(batch_id) REFERENCES zenclass(batch_id),
+session_id INT,
+    FOREIGN KEY(session_id) REFERENCES session(session_id)
+
+
+);
+
+
+CREATE TABLE coordinator (
+coordinator_id INT PRIMARY KEY,
+mentor_id INT,
+batch_id INT,
+student_id INT,
+session_id INT,
+syllabus_id INT,
+    FOREIGN KEY(mentor_id) REFERENCES mentor(mentor_id),
+    FOREIGN KEY(batch_id) REFERENCES zenclass(batch_id),
+    FOREIGN KEY(student_id) REFERENCES students(student_id),
+    FOREIGN KEY(session_id) REFERENCES session(session_id),
+    FOREIGN KEY(syllabus_id) REFERENCES syllabus(syllabus_id)
+
+
+);
+CREATE TABLE mentor(
+mentor_id INT PRIMARY KEY,
+mentor_nameVARCHAR(30),
+batch_id INT,
+student_id INT,
+session_id INT
+    FOREIGN KEY(student_id) REFERENCES students(student_id),
+    FOREIGN KEY(batch_id) REFERENCES zenclass(batch_id),
+    FOREIGN KEY(session_id) REFERENCES session(session_id)
+
+);
+
+
+
+CREATE TABLE queries(
+query_id INT PRIMARY KEY,
+batch_id INT,
+student_id INT,
+    FOREIGN KEY(batch_id) REFERENCES zenclass(batch_id),
+    FOREIGN KEY(student_id) REFERENCES students(student_id)
+);
